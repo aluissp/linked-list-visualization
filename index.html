@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="assets/img/pointer.png" type="image/x-icon">
+  <link rel="icon" href="assets/logo.ico" type="image/x-icon">
   <link rel="stylesheet" href="vendor/css/normalize.css">
   <link rel="stylesheet" href="vendor/css/all.min.css">
 
@@ -13,27 +13,43 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- <script src="" defer></script> -->
   <title>Linked list</title>
 </head>
 
 <body>
-  <div id="settings">
+  <div class="settings hide-sidebar">
     <div class="menu-header">
-      <div id="close-settings">
-        <i class="fa-solid fa-circle-xmark"></i>
-      </div>
       <div>
         <h1>Settings</h1>
       </div>
+      <div id="close-settings">
+        <i class="fa-solid fa-xmark"></i>
+      </div>
     </div>
 
+    <div>
+      <!-- Settings -->
+    </div>
+
+    <button>
+      Save
+    </button>
   </div>
-  <header>
-    <h1>Linked <span>List</span> Visualization</h1>
+  <header class="header">
+    <div class="header-container">
+      <i class="fa-solid fa-bars"></i>
+      <h1>Linked <span>List</span> Visualization</h1>
+      <i class="fa-solid fa-circle-half-stroke"></i>
+    </div>
   </header>
 
-  <main></main>
+  <main>
+    <section class="list">1</section>
+    <section class="errors">2</section>
+    <section class="operations">3</section>
+  </main>
 
 </body>
 
