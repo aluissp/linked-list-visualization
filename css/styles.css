@@ -5,6 +5,7 @@
 	--white: #e9f8f9;
 	--purple: #ad7be9;
 	--navi: #2b3467;
+	--red: #eb455f;
 }
 
 body {
@@ -78,8 +79,8 @@ body {
 /* Header */
 .header,
 main {
-	padding-left: 3rem;
-	padding-right: 3rem;
+	padding-left: 4rem;
+	padding-right: 4rem;
 }
 
 .header-container {
@@ -125,11 +126,72 @@ section.list {
 	scrollbar-width: thin;
 }
 
+/* Main */
+main {
+	padding-top: 3rem;
+	padding-bottom: 3rem;
+}
+
 /* Sections */
 section {
 	color: var(--white);
 }
 
+/* List */
+.list {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	flex-wrap: nowrap;
+	gap: 0.5rem;
+	overflow-x: auto;
+	padding-bottom: 1rem;
+}
+
+.node {
+	background-color: var(--purple);
+	width: 4.5rem;
+	height: 4.5rem;
+	min-width: 4.5rem;
+	min-height: 4.5rem;
+	border-radius: 999px;
+}
+
+.node,
+.pointer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.node > p {
+	font-weight: bold;
+	font-size: 1.6rem;
+}
+
+.pointer > img {
+	width: 50px;
+}
+
+/* Errors */
+.errors {
+	width: 100%;
+	color: var(--red);
+	font-size: 1.1rem;
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+}
+
+.error-icon {
+	/* do something */
+}
+
+.error-message {
+	/* do something */
+}
+
+/* Linked list operations */
 .operations {
 	position: fixed;
 	bottom: 5%;
