@@ -196,4 +196,35 @@ section {
 	position: fixed;
 	bottom: 5%;
 	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 2rem;
+}
+
+.button-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.button-wrapper > button,
+.button-wrapper > input {
+	border: none;
+	border-radius: 0.375rem;
+}
+
+.button-wrapper > button {
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	background: linear-gradient(-125deg, var(--purple), var(--blue));
+	color: var(--white);
+	font-weight: bold;
+	font-size: 1.3rem;
+}
+
+.button-wrapper > input {
+	padding: 0.5rem;
+	font-weight: 500;
+	outline: 2px solid transparent;
+	outline-offset: 2px;
 }
