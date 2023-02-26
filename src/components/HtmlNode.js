@@ -1,8 +1,11 @@
+import { createPointer } from './pointer.js';
+
 export default class HtmlNode {
 	constructor(data) {
 		this.data = data;
 		this.next = null;
 		this.htmlNode = null;
+		this.pointer = createPointer();
 
 		this.createHtml(data);
 	}
@@ -17,5 +20,9 @@ export default class HtmlNode {
 
 	getHtml() {
 		return this.htmlNode;
+	}
+
+	getPointer() {
+		return this.pointer;
 	}
 }

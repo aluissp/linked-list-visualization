@@ -1,5 +1,6 @@
-import { HtmlNode } from './components';
-console.log(HtmlNode);
+import HtmlNode from './components/HtmlNode.js';
+import { setNodeInDocument } from './helpers/domHandler.js';
+import to from './tools/to.js';
 
 const linkedList = {
 	headNode: null,
@@ -15,28 +16,44 @@ export const isEmpty = () => {
 	return linkedList.length === 0;
 };
 
-export const addFirst = value => {
-	const node = new HtmlNode(value);
+const addFirst = value => {
+	return new Promise(async (resolve, reject) => {
+		const node = new HtmlNode(value);
 
-	if (!linkedList.headNode) {
-		linkedList.tailNode = node;
-	}
+		if (!linkedList.headNode) {
+			linkedList.tailNode = node;
+		}
 
-	node.next = linkedList.headNode;
-	linkedList.headNode = node;
-	linkedList.length++;
+		node.next = linkedList.headNode;
+		linkedList.headNode = node;
+		linkedList.length++;
+
+		// Add in document
+		await setNodeInDocument(node.getHtml(), node.getPointer());
+		resolve();
+	});
 };
 
 export const addLast = value => {
-	const node = new HtmlNode(value);
+	return new Promise(async (resolve, reject) => {
+		const node = new HtmlNode(value);
 
-	if (!linkedList.headNode) {
-		return linkedList.addFirst(value);
-	}
+		if (!linkedList.headNode) {
+			const [error] = await to(addFirst(value));
 
-	linkedList.tailNode.next = node;
-	linkedList.tailNode = node;
-	linkedList.length++;
+			if (error) return reject(error);
+
+			return resolve();
+		}
+
+		linkedList.tailNode.next = node;
+		linkedList.tailNode = node;
+		linkedList.length++;
+
+		// Add in document
+		await setNodeInDocument(node.getHtml(), node.getPointer());
+		resolve();
+	});
 };
 
 export const getInitialNodeAndIndex = () => {
