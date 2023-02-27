@@ -1,0 +1,86 @@
+/* Node */
+
+@keyframes grow {
+	0% {
+		transform: scale(0);
+	}
+	80% {
+		transform: scale(1.2);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes highlightNode {
+	50% {
+		transform: scale(1.3);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes deleteNode {
+	50% {
+		transform: scale(1.3);
+	}
+	100% {
+		transform: scale(0);
+	}
+}
+
+@keyframes moveLeftNode {
+	0% {
+		transform: translateX(200%);
+	}
+	70% {
+		transform: translateX(250%);
+	}
+	100% {
+		transform: translateX(0%);
+	}
+}
+
+@keyframes moveRightNode {
+	50% {
+		transform: translateX(250%);
+	}
+	100% {
+		transform: translateX(200%);
+	}
+}
+
+/* Pointer */
+@keyframes slide {
+	0% {
+		transform: translateX(-100%);
+	}
+	80% {
+		transform: translateX(10%);
+	}
+	100% {
+		transform: translateX(0%);
+	}
+}
+
+@keyframes highlightPointer {
+	33% {
+		transform: rotate(10deg);
+	}
+	66% {
+		transform: rotate(-10deg);
+	}
+	100% {
+		transform: rotate(0deg);
+	}
+}
+
+@keyframes deletePointer {
+	50% {
+		transform: scale(1.3);
+	}
+	100% {
+		transform: scale(0);
+	}
+}
