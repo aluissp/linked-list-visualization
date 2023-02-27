@@ -196,34 +196,64 @@ section {
 .operations {
 	position: fixed;
 	bottom: 5%;
+	left: 0px;
 	width: 100%;
+}
+
+.wrapper {
+	width: 90%;
+	margin: 0 auto;
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 	gap: 2rem;
 }
 
-.button-wrapper {
+@media (max-width: 768px) {
+	.wrapper {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.button-wrapper,
+.remove-button-wrapper {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
 }
 
 .button-wrapper > button,
+.remove-button-wrapper > button,
+.remove-button-wrapper > input,
 .button-wrapper > input {
 	border: none;
 	border-radius: 0.375rem;
 }
 
 .button-wrapper > button {
+	background: linear-gradient(-125deg, var(--purple), var(--blue));
+}
+
+.remove-button-wrapper > button {
+	background: linear-gradient(-125deg, var(--navi), var(--red));
+}
+
+.button-wrapper > button,
+.remove-button-wrapper > button {
 	padding-top: 0.5rem;
 	padding-bottom: 0.5rem;
-	background: linear-gradient(-125deg, var(--purple), var(--blue));
 	color: var(--white);
 	font-weight: bold;
 	font-size: 1.3rem;
+	transition: all 0.2s ease-in-out;
 }
 
-.button-wrapper > input {
+.button-wrapper > button:hover,
+.remove-button-wrapper > button:hover {
+	transform: scale(1.03);
+}
+
+.button-wrapper > input,
+.remove-button-wrapper > input {
 	padding: 0.5rem;
 	font-weight: 500;
 	outline: 2px solid transparent;
