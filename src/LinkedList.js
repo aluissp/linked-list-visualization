@@ -1,5 +1,6 @@
 import HtmlNode from './components/HtmlNode.js';
-import { setNodeInDocument } from './helpers/domHandler.js';
+import { insertNodeInDocument, setNodeInDocument } from './helpers/domHandler.js';
+import { searchingNodeAnimation, searchingPointerAnimation } from './tools/animations.js';
 import to from './tools/to.js';
 
 const linkedList = {
@@ -20,6 +21,8 @@ const addFirst = value => {
 	return new Promise(async (resolve, reject) => {
 		const node = new HtmlNode(value);
 
+		const isCurrentNodeEmpty = isEmpty();
+
 		if (!linkedList.headNode) {
 			linkedList.tailNode = node;
 		}
@@ -29,7 +32,11 @@ const addFirst = value => {
 		linkedList.length++;
 
 		// Add in document
-		await setNodeInDocument(node.getHtml(), node.getPointer());
+		if (isCurrentNodeEmpty) {
+			await setNodeInDocument(node.getHtml(), node.getPointer());
+		} else {
+			await insertNodeInDocument(node);
+		}
 		resolve();
 	});
 };
@@ -61,29 +68,52 @@ export const getInitialNodeAndIndex = () => {
 };
 
 export const addAt = (index, value) => {
-	if (index > linkedList.size() || index < 0) {
-		throw RangeError('Out of range index.');
-	}
+	return new Promise(async (resolve, reject) => {
+		if (index > size() || index < 0) {
+			return reject('Out of range index.');
+		}
 
-	if (linkedList.isEmpty()) {
-		linkedList.addFirst(value);
-	}
+		if (index === 0) {
+			const [error] = await to(addFirst(value));
 
-	if (linkedList.size() === index) {
-		linkedList.addLast(value);
-	}
+			if (error) return reject(error);
 
-	let { currentIndex, currentNode } = linkedList.getInitialNodeAndIndex();
+			return resolve();
+		}
 
-	while (currentIndex !== index) {
-		currentIndex++;
-		currentNode = currentNode.next;
-	}
+		if (size() === index) {
+			const [error] = await to(addLast(value));
 
-	tempNode = currentNode.next;
-	currentNode = new HtmlNode(value);
-	currentNode.next = tempNode;
-	linkedList.length++;
+			if (error) return reject(error);
+
+			return resolve();
+		}
+
+		let { currentIndex, currentNode } = getInitialNodeAndIndex();
+		const node = new HtmlNode(value);
+
+		while (currentIndex !== index - 1) {
+			await searchingNodeAnimation(currentNode.getHtml());
+			await searchingPointerAnimation(currentNode.getPointer());
+			currentIndex++;
+			currentNode = currentNode.next;
+		}
+
+		await searchingNodeAnimation(currentNode.getHtml());
+		await searchingPointerAnimation(currentNode.getPointer());
+
+		const tempNode = currentNode.next;
+		currentNode.next = node;
+		node.next = tempNode;
+		linkedList.length++;
+
+		// Add in document
+		const [error] = await to(insertNodeInDocument(node));
+
+		if (error) return reject(error);
+
+		resolve();
+	});
 };
 
 export const getNode = index => {
