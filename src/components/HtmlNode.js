@@ -18,6 +18,10 @@ export default class HtmlNode {
 		this.htmlNode.appendChild(paragraph);
 	}
 
+	updateData(data) {
+		this.data = data;
+	}
+
 	getHtml() {
 		return this.htmlNode;
 	}
