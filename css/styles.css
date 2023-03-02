@@ -143,17 +143,12 @@ section {
 	justify-content: start;
 	align-items: center;
 	flex-wrap: nowrap;
-	gap: 0.5rem;
 	overflow-x: auto;
 	padding: 1rem;
 }
 
 .node {
 	background-color: var(--purple);
-	width: 4.5rem;
-	height: 4.5rem;
-	min-width: 4.5rem;
-	min-height: 4.5rem;
 	border-radius: 999px;
 	z-index: 10;
 }
@@ -163,6 +158,10 @@ section {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	width: 4.5rem;
+	height: 4.5rem;
+	min-width: 4.5rem;
+	min-height: 4.5rem;
 }
 
 .node > p {
@@ -170,10 +169,9 @@ section {
 	font-size: 1.6rem;
 }
 
-.pointer,
 .pointer > img {
-	min-width: 50px;
-	width: 50px;
+	min-width: 3rem;
+	width: 3rem;
 }
 
 /* Errors */
