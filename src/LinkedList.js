@@ -1,5 +1,9 @@
 import HtmlNode from './components/HtmlNode.js';
-import { insertNodeInDocument, setNodeInDocument } from './helpers/domHandler.js';
+import {
+	insertNodeInDocument,
+	setNodeInDocument,
+	updateValueInNode,
+} from './helpers/domHandler.js';
 import { searchingNodeAnimation, searchingPointerAnimation } from './tools/animations.js';
 import to from './tools/to.js';
 
@@ -89,18 +93,8 @@ export const addAt = (index, value) => {
 			return resolve();
 		}
 
-		let { currentIndex, currentNode } = getInitialNodeAndIndex();
 		const node = new HtmlNode(value);
-
-		while (currentIndex !== index - 1) {
-			await searchingNodeAnimation(currentNode.getHtml());
-			await searchingPointerAnimation(currentNode.getPointer());
-			currentIndex++;
-			currentNode = currentNode.next;
-		}
-
-		await searchingNodeAnimation(currentNode.getHtml());
-		await searchingPointerAnimation(currentNode.getPointer());
+		const currentNode = await animateUntilFindNode(index);
 
 		const tempNode = currentNode.next;
 		currentNode.next = node;
@@ -116,38 +110,52 @@ export const addAt = (index, value) => {
 	});
 };
 
-export const getNode = index => {
-	if (index > linkedList.size() || index < 0) {
-		throw RangeError('Out of range index.');
-	}
+const animateUntilFindNode = async index => {
+	let { currentIndex, currentNode } = getInitialNodeAndIndex();
 
-	if (linkedList.isEmpty()) return;
-
-	if (linkedList.size() === index) {
-		return linkedList.tailNode;
-	}
-
-	if (index === 0) {
-		return linkedList.headNode;
-	}
-
-	let { currentIndex, currentNode } = linkedList.getInitialNodeAndIndex();
-
-	while (index !== currentIndex) {
+	while (currentIndex !== index - 1) {
+		await searchingNodeAnimation(currentNode.getHtml());
+		await searchingPointerAnimation(currentNode.getPointer());
 		currentIndex++;
 		currentNode = currentNode.next;
 	}
 
+	await searchingNodeAnimation(currentNode.getHtml());
+	await searchingPointerAnimation(currentNode.getPointer());
+
 	return currentNode;
 };
 
+const getNode = index => {
+	return new Promise(async (resolve, reject) => {
+		if (index >= size() || index < 0) {
+			return reject('Out of range index.');
+		}
+
+		if (isEmpty()) return reject('Linked list is empty');
+
+		if (size() - 1 === index) return resolve(linkedList.tailNode);
+
+		if (index === 0) return resolve(linkedList.headNode);
+
+		const currentNode = await animateUntilFindNode(index);
+
+		resolve(currentNode.next);
+	});
+};
+
 export const updateValue = (index, value) => {
-	try {
-		const node = linkedList.getNode(index);
-		node.data = value;
-	} catch (error) {
-		throw error;
-	}
+	return new Promise(async (resolve, reject) => {
+		const [error, node] = await to(getNode(index));
+
+		if (error) return reject(error);
+
+		node.updateData(value);
+
+		await updateValueInNode(node);
+
+		resolve();
+	});
 };
 
 export const clean = () => {
