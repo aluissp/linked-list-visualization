@@ -2,6 +2,7 @@ import {
 	createNodeAnimation,
 	createPointerAnimation,
 	insertNodeAndPointerAnimation,
+	updateValueAnimation,
 } from '../tools/animations.js';
 import { getHtmlWrappers } from './getHtmlWrappers.js';
 
@@ -24,6 +25,22 @@ export const insertNodeInDocument = newNode => {
 		const [listWrapper] = getHtmlWrappers();
 
 		await insertNodeAndPointerAnimation({ newNode, listWrapper });
+
+		resolve();
+	});
+};
+
+export const updateValueInNode = currentNode => {
+	return new Promise(async (resolve, reject) => {
+		const htmlNode = currentNode.getHtml();
+
+		const paragraph = document.createElement('p');
+		paragraph.innerText = currentNode.data;
+
+		htmlNode.firstElementChild.remove();
+		htmlNode.appendChild(paragraph);
+
+		await updateValueAnimation(paragraph);
 
 		resolve();
 	});

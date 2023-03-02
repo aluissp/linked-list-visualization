@@ -42,8 +42,8 @@ export const searchingPointerAnimation = (htmlPointer, time = 800) => {
 };
 
 const setMoveLeftNodeAndPointer = ({ htmlNode, htmlPointer }, time = 800) => {
-	htmlNode.style.animation = `moveRightNode ${convertToSeconds(time)}s ease-out`;
-	htmlPointer.style.animation = `moveRightNode ${convertToSeconds(time)}s ease-out`;
+	htmlNode.style.animation = `moveRightNode ${convertToSeconds(time)}s ease`;
+	htmlPointer.style.animation = `moveRightNode ${convertToSeconds(time)}s ease`;
 };
 
 const removeMoveLeftNodeAndPointer = ({ htmlNode, htmlPointer }) => {
@@ -84,6 +84,17 @@ export const insertNodeAndPointerAnimation = ({ newNode, listWrapper }, time = 8
 
 				nextNode = nextNode.next;
 			}
+			resolve();
+		}, time);
+	});
+};
+
+export const updateValueAnimation = (htmlParagraph, time = 800) => {
+	return new Promise((resolve, reject) => {
+		htmlParagraph.style.animation = `grow ${convertToSeconds(time)}s ease`;
+
+		setTimeout(() => {
+			htmlParagraph.style.animation = null;
 			resolve();
 		}, time);
 	});
