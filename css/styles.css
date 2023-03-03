@@ -184,12 +184,12 @@ section {
 	gap: 0.6rem;
 }
 
-.error-icon {
-	/* do something */
+.hide {
+	display: none;
 }
 
-.error-message {
-	/* do something */
+.show-errors {
+	display: flex;
 }
 
 /* Linked list operations */

@@ -43,10 +43,6 @@
 }
 
 @keyframes moveRightNode {
-	/* 100% {
-		transform: translateX(200%);
-	} */
-
 	50% {
 		transform: translateX(225%);
 	}
@@ -86,5 +82,14 @@
 	}
 	100% {
 		transform: scale(0);
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
 	}
 }
