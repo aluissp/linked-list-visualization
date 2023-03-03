@@ -100,4 +100,15 @@ export const updateValueAnimation = (htmlParagraph, time = 800) => {
 	});
 };
 
+export const setFadeInAnimate = (htmlElement, time = 800) => {
+	return new Promise(resolve => {
+		htmlElement.style.animation = `fadeIn ${convertToSeconds(time)}s ease-in-out`;
+
+		setTimeout(() => {
+			htmlElement.style.animation = null;
+			resolve();
+		}, time);
+	});
+};
+
 const convertToSeconds = milliseconds => milliseconds / 1000;

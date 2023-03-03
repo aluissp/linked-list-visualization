@@ -128,11 +128,11 @@ const animateUntilFindNode = async index => {
 
 const getNode = index => {
 	return new Promise(async (resolve, reject) => {
+		if (isEmpty()) return reject('Linked list is empty.');
+
 		if (index >= size() || index < 0) {
 			return reject('Out of range index.');
 		}
-
-		if (isEmpty()) return reject('Linked list is empty');
 
 		if (size() - 1 === index) return resolve(linkedList.tailNode);
 

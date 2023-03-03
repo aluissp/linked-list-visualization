@@ -1,9 +1,10 @@
 import { addAt, addLast, updateValue } from '../LinkedList.js';
 import to from '../tools/to.js';
-import { showError } from './showError.js';
+import { hideError, showError } from './errors.js';
 
 export const addValueHandler = async event => {
 	event.preventDefault();
+	hideError();
 
 	const button = event.target.firstElementChild;
 	button.setAttribute('disabled', '');
@@ -20,6 +21,7 @@ export const addValueHandler = async event => {
 
 export const insertValueHandler = async event => {
 	event.preventDefault();
+	hideError();
 
 	const button = event.target.firstElementChild;
 	button.setAttribute('disabled', '');
@@ -29,6 +31,7 @@ export const insertValueHandler = async event => {
 	const value = data.get('data');
 
 	const [error] = await to(addAt(+index, +value));
+
 	if (error) showError(error);
 
 	button.removeAttribute('disabled');
@@ -36,6 +39,7 @@ export const insertValueHandler = async event => {
 
 export const setValueHandler = async event => {
 	event.preventDefault();
+	hideError();
 
 	const button = event.target.firstElementChild;
 	button.setAttribute('disabled', '');
@@ -46,7 +50,7 @@ export const setValueHandler = async event => {
 
 	const [error] = await to(updateValue(+index, +value));
 
-	if (error) showError(error);
+	if (error) await showError(error);
 
 	button.removeAttribute('disabled');
 };
