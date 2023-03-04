@@ -111,4 +111,24 @@ export const setFadeInAnimate = (htmlElement, time = 800) => {
 	});
 };
 
+export const toggleMenuDown = (menuWrapper, time = 800) => {
+	return new Promise(resolve => {
+		menuWrapper.style.animation = `toggleMenuDown ${convertToSeconds(time)}s ease-in-out`;
+		setTimeout(() => {
+			menuWrapper.style.animation = null;
+			resolve();
+		}, time);
+	});
+};
+
+export const toggleMenuUp = (menuWrapper, time = 800) => {
+	return new Promise(resolve => {
+		menuWrapper.style.animation = `toggleMenuUp ${convertToSeconds(time)}s ease-in-out`;
+		setTimeout(() => {
+			menuWrapper.style.animation = null;
+			resolve();
+		}, time);
+	});
+};
+
 const convertToSeconds = milliseconds => milliseconds / 1000;
