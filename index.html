@@ -83,9 +83,18 @@
           <input type="number" name="data" placeholder="data">
         </form>
         <form class="remove-button-wrapper" id="remove-node">
-          <button type="submit">Remove</button>
-          <input type="number" name="index" placeholder="index">
-          <input type="number" name="data" placeholder="data">
+          <button type="submit" class="remove-button">
+            Remove
+            <i class="fas fa-cog"></i>
+          </button>
+
+          <div class="hide">
+            <button>Index</button>
+            <button>Data</button>
+            <button>Clear all</button>
+          </div>
+          <input class="hide" type="number" name="index" placeholder="index">
+          <input class="hide" type="number" name="data" placeholder="data">
         </form>
       </div>
     </section>
