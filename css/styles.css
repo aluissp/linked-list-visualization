@@ -225,7 +225,8 @@ section {
 .button-wrapper > button,
 .remove-button-wrapper > button,
 .remove-button-wrapper > input,
-.button-wrapper > input {
+.button-wrapper > input,
+.remove-button {
 	border: none;
 	border-radius: 0.375rem;
 }
@@ -234,13 +235,12 @@ section {
 	background: linear-gradient(-125deg, var(--purple), var(--blue));
 }
 
-.remove-button-wrapper > button,
+.remove-button,
 .remove-options-wrapper > button {
 	background: linear-gradient(-125deg, var(--navi), var(--red));
 }
 
-.button-wrapper > button,
-.remove-button-wrapper > button {
+.button-wrapper > button {
 	padding-top: 0.5rem;
 	padding-bottom: 0.5rem;
 	color: var(--white);
@@ -249,8 +249,8 @@ section {
 	transition: all 0.2s ease-in-out;
 }
 
+.remove-button:hover,
 .button-wrapper > button:hover,
-.remove-button-wrapper > button:hover,
 .remove-options-wrapper > button:hover {
 	transform: scale(1.03);
 }
@@ -268,17 +268,22 @@ section {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0 30px 0 20px;
+	padding: 7px 30px 7px 20px;
 	z-index: 10;
+	transition: all 0.2s ease-in-out;
 }
 
-.remove-button > i:hover {
+.remove-button > button:nth-child(2):hover {
 	transform: rotate(90deg);
 }
-.remove-button > i {
+.remove-button > button {
 	padding: 0 10px;
 	font-size: 1.3rem;
+	background: transparent;
 	transition: all 0.2s ease-in-out;
+	color: var(--white);
+	font-weight: bold;
+	border: none;
 }
 
 .remove-options-wrapper {
