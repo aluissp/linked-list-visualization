@@ -1,4 +1,5 @@
 import { toggleMenuDown, toggleMenuUp } from '../tools/animations.js';
+import { removeAllNodesHandler } from './formHandlers.js';
 
 let wrapper;
 let indexInput;
@@ -21,9 +22,7 @@ export const initRemoveHandler = (removeForm, removeValueHandler) => {
 	removeForm.onsubmit = removeValueHandler;
 };
 
-const showRemoveOptions = async event => {
-	event.preventDefault();
-
+const showRemoveOptions = async () => {
 	hide(indexInput);
 	hide(dataInput);
 
@@ -44,21 +43,19 @@ const showRemoveOptions = async event => {
 
 const clearAllAction = async event => {
 	event.preventDefault();
-	console.log('clear');
-
-	await showRemoveOptions(event);
+	await Promise.all([showRemoveOptions(), removeAllNodesHandler()]);
 };
 
 const showIndexInput = async event => {
 	event.preventDefault();
-	await showRemoveOptions(event);
+	await showRemoveOptions();
 	show(indexInput);
 	hide(dataInput);
 };
 
 const showDataInput = async event => {
 	event.preventDefault();
-	await showRemoveOptions(event);
+	await showRemoveOptions();
 	show(dataInput);
 	hide(indexInput);
 };

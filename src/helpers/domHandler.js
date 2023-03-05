@@ -2,6 +2,7 @@ import {
 	createNodeAnimation,
 	createPointerAnimation,
 	insertNodeAndPointerAnimation,
+	removeElementAnimation,
 	updateValueAnimation,
 } from '../tools/animations.js';
 import { getHtmlWrappers } from './getHtmlWrappers.js';
@@ -41,6 +42,18 @@ export const updateValueInNode = currentNode => {
 		htmlNode.appendChild(paragraph);
 
 		await updateValueAnimation(paragraph);
+
+		resolve();
+	});
+};
+
+export const removeAllNodes = nodeLists => {
+	return new Promise(async (resolve, reject) => {
+		const removeListsPromises = nodeLists.map(htmlElement => removeElementAnimation(htmlElement));
+
+		await Promise.all(removeListsPromises);
+
+		nodeLists.forEach(htmlElement => htmlElement.remove());
 
 		resolve();
 	});

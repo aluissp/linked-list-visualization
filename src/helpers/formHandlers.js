@@ -1,4 +1,4 @@
-import { addAt, addLast, updateValue } from '../LinkedList.js';
+import { addAt, addLast, clean, updateValue } from '../LinkedList.js';
 import to from '../tools/to.js';
 import { hideError, showError } from './errors.js';
 
@@ -71,4 +71,12 @@ export const removeValueHandler = async event => {
 	// if (error) await showError(error);
 
 	// button.removeAttribute('disabled');
+};
+
+export const removeAllNodesHandler = async () => {
+	hideError();
+
+	const [error] = await to(clean());
+
+	if (error) await showError(error);
 };

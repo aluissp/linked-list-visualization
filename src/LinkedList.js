@@ -1,6 +1,7 @@
 import HtmlNode from './components/HtmlNode.js';
 import {
 	insertNodeInDocument,
+	removeAllNodes,
 	setNodeInDocument,
 	updateValueInNode,
 } from './helpers/domHandler.js';
@@ -159,7 +160,25 @@ export const updateValue = (index, value) => {
 };
 
 export const clean = () => {
-	linkedList.headNode = null;
-	linkedList.tailNode = null;
-	linkedList.length = 0;
+	return new Promise(async (resolve, reject) => {
+		if (isEmpty()) return reject('Linked list is empty.');
+
+		let { currentNode } = getInitialNodeAndIndex();
+
+		const nodeLists = [];
+
+		while (currentNode) {
+			nodeLists.push(currentNode.htmlNode);
+			nodeLists.push(currentNode.pointer);
+			currentNode = currentNode.next;
+		}
+
+		await removeAllNodes(nodeLists);
+
+		linkedList.headNode = null;
+		linkedList.tailNode = null;
+		linkedList.length = 0;
+
+		resolve();
+	});
 };
