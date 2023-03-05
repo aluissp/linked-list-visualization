@@ -131,4 +131,15 @@ export const toggleMenuUp = (menuWrapper, time = 800) => {
 	});
 };
 
+export const removeElementAnimation = (htmlElement, time = 800) => {
+	return new Promise((resolve, reject) => {
+		htmlElement.style.animation = `deleteNode ${convertToSeconds(time)}s ease`;
+
+		setTimeout(() => {
+			htmlElement.style.animation = null;
+			resolve();
+		}, time);
+	});
+};
+
 const convertToSeconds = milliseconds => milliseconds / 1000;
