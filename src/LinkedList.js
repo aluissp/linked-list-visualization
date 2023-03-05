@@ -2,6 +2,7 @@ import HtmlNode from './components/HtmlNode.js';
 import {
 	insertNodeInDocument,
 	removeAllNodes,
+	removeFirstOrLastNode,
 	setNodeInDocument,
 	updateValueInNode,
 } from './helpers/domHandler.js';
@@ -178,6 +179,79 @@ export const clean = () => {
 		linkedList.headNode = null;
 		linkedList.tailNode = null;
 		linkedList.length = 0;
+
+		resolve();
+	});
+};
+
+const removeFirst = () => {
+	return new Promise(async (resolve, reject) => {
+		if (linkedList.headNode === null) return reject('Linked list is empty.');
+
+		await removeFirstOrLastNode(linkedList.headNode);
+
+		linkedList.headNode = linkedList.headNode.next;
+		linkedList.length--;
+
+		if (isEmpty()) {
+			linkedList.tailNode = null;
+		}
+		resolve();
+	});
+};
+
+const removeLast = () => {
+	return new Promise(async (resolve, reject) => {
+		if (isEmpty()) return reject('Linked list is empty.');
+
+		if (linkedList.length === 1) {
+			const [error] = to(removeFirst());
+
+			if (error) return reject(error);
+
+			return resolve();
+		}
+
+		await removeFirstOrLastNode(linkedList.tailNode);
+
+		let { currentNode } = getInitialNodeAndIndex();
+		while (currentNode.next.next) {
+			currentNode = currentNode.next;
+		}
+		currentNode.next = null;
+		linkedList.tailNode = currentNode;
+		linkedList.length--;
+
+		resolve();
+	});
+};
+
+export const removeAt = index => {
+	return new Promise(async (resolve, reject) => {
+		if (index < 0 || index >= linkedList.length) return reject('Out of Range index');
+
+		if (index === 0) {
+			const [error] = await to(removeFirst());
+
+			if (error) return reject(error);
+
+			return resolve();
+		}
+
+		if (index === linkedList.length - 1) {
+			const [error] = await to(removeLast());
+
+			if (error) return reject(error);
+
+			return resolve();
+		}
+
+		let currentNode = await animateUntilFindNode(index);
+
+		await removeFirstOrLastNode(currentNode.next);
+
+		currentNode.next = currentNode.next.next;
+		linkedList.length--;
 
 		resolve();
 	});

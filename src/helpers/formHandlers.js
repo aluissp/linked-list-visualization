@@ -1,4 +1,4 @@
-import { addAt, addLast, clean, updateValue } from '../LinkedList.js';
+import { addAt, addLast, clean, removeAt, updateValue } from '../LinkedList.js';
 import to from '../tools/to.js';
 import { hideError, showError } from './errors.js';
 
@@ -59,18 +59,38 @@ export const removeValueHandler = async event => {
 	event.preventDefault();
 	hideError();
 
-	// const button = event.target.firstElementChild;
-	// button.setAttribute('disabled', '');
+	const button = event.target.firstElementChild;
+	button.setAttribute('disabled', '');
 
-	// const data = new FormData(event.target);
-	// const index = data.get('index');
-	// const value = data.get('data');
+	const indexInput = event.target.children[2];
+	const dataInput = event.target.children[3];
 
-	// const [error] = await to(updateValue(+index, +value));
+	const index = indexInput.value;
+	const value = dataInput.value;
 
-	// if (error) await showError(error);
+	let errorMessage;
 
-	// button.removeAttribute('disabled');
+	if (!index || !value) {
+		errorMessage = 'You must choose an option to remove nodes and give an index or data';
+	}
+
+	if (!!index) {
+		let [error] = await to(removeAt(+index));
+
+		errorMessage = error;
+	}
+
+	if (!!value) {
+		console.log({ value });
+		// errorMessage = error;
+	}
+
+	if (errorMessage) await showError(errorMessage);
+
+	indexInput.value = '';
+	dataInput.value = '';
+
+	button.removeAttribute('disabled');
 };
 
 export const removeAllNodesHandler = async () => {

@@ -7,14 +7,14 @@ let dataInput;
 let isShowRemoveOptions = false;
 
 export const initRemoveHandler = (removeForm, removeValueHandler) => {
-	const showBtn = removeForm.firstElementChild.firstElementChild;
+	const showBtn = removeForm.firstElementChild.children[1];
 	wrapper = removeForm.children[1];
 	indexInput = removeForm.children[2];
 	dataInput = removeForm.children[3];
 
 	const [removeIndexBtn, removeDataBtn, clearAllBtn] = wrapper.children;
 
-	showBtn.onclick = showRemoveOptions;
+	showBtn.onclick = hideOptions;
 	removeIndexBtn.onclick = showIndexInput;
 	removeDataBtn.onclick = showDataInput;
 	clearAllBtn.onclick = clearAllAction;
@@ -22,42 +22,42 @@ export const initRemoveHandler = (removeForm, removeValueHandler) => {
 	removeForm.onsubmit = removeValueHandler;
 };
 
-const showRemoveOptions = async () => {
+const hideOptions = async element => {
+	element?.preventDefault();
+
 	hide(indexInput);
 	hide(dataInput);
 
-	if (!isShowRemoveOptions) {
-		wrapper.className = 'remove-options-wrapper';
+	wrapper.className = 'remove-options-wrapper';
 
-		const toggleMenuPromises = [...wrapper.children].map(btn => toggleMenuDown(btn));
-		await Promise.all(toggleMenuPromises);
+	const toggleMenuPromises = [...wrapper.children].map(btn =>
+		isShowRemoveOptions ? toggleMenuUp(btn) : toggleMenuDown(btn)
+	);
 
-		isShowRemoveOptions = true;
-	} else {
-		const toggleMenuPromises = [...wrapper.children].map(btn => toggleMenuUp(btn));
-		await Promise.all(toggleMenuPromises);
-		wrapper.className = 'hide';
-		isShowRemoveOptions = false;
-	}
+	await Promise.all(toggleMenuPromises);
+
+	wrapper.className = isShowRemoveOptions ? 'hide' : 'remove-options-wrapper';
+
+	isShowRemoveOptions = !isShowRemoveOptions;
 };
 
 const clearAllAction = async event => {
 	event.preventDefault();
-	await Promise.all([showRemoveOptions(), removeAllNodesHandler()]);
+	await Promise.all([hideOptions(), removeAllNodesHandler()]);
 };
 
 const showIndexInput = async event => {
 	event.preventDefault();
-	await showRemoveOptions();
-	show(indexInput);
+	await hideOptions();
 	hide(dataInput);
+	show(indexInput);
 };
 
 const showDataInput = async event => {
 	event.preventDefault();
-	await showRemoveOptions();
-	show(dataInput);
+	await hideOptions();
 	hide(indexInput);
+	show(dataInput);
 };
 
 const hide = htmlElement => (htmlElement.className = 'hide');

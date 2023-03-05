@@ -3,6 +3,7 @@ import {
 	createPointerAnimation,
 	insertNodeAndPointerAnimation,
 	removeElementAnimation,
+	setMoveLeftNodeAndPointer,
 	updateValueAnimation,
 } from '../tools/animations.js';
 import { getHtmlWrappers } from './getHtmlWrappers.js';
@@ -54,6 +55,38 @@ export const removeAllNodes = nodeLists => {
 		await Promise.all(removeListsPromises);
 
 		nodeLists.forEach(htmlElement => htmlElement.remove());
+
+		resolve();
+	});
+};
+
+export const removeFirstOrLastNode = node => {
+	return new Promise(async resolve => {
+		await Promise.all([
+			removeElementAnimation(node.getHtml()),
+			removeElementAnimation(node.getPointer()),
+		]);
+
+		node.getHtml().remove();
+		node.getPointer().remove();
+
+		if (node.next) {
+			const moveLeftElementsPromises = [];
+			let currentNode = node.next;
+
+			while (currentNode) {
+				moveLeftElementsPromises.push(
+					setMoveLeftNodeAndPointer({
+						htmlNode: currentNode.getHtml(),
+						htmlPointer: currentNode.getPointer(),
+					})
+				);
+
+				currentNode = currentNode.next;
+			}
+
+			await Promise.all(moveLeftElementsPromises);
+		}
 
 		resolve();
 	});

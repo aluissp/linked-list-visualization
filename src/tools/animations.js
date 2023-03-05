@@ -41,12 +41,24 @@ export const searchingPointerAnimation = (htmlPointer, time = 800) => {
 	});
 };
 
-const setMoveLeftNodeAndPointer = ({ htmlNode, htmlPointer }, time = 800) => {
+const setMoveRightNodeAndPointer = ({ htmlNode, htmlPointer }, time = 800) => {
 	htmlNode.style.animation = `moveRightNode ${convertToSeconds(time)}s ease`;
 	htmlPointer.style.animation = `moveRightNode ${convertToSeconds(time)}s ease`;
 };
 
-const removeMoveLeftNodeAndPointer = ({ htmlNode, htmlPointer }) => {
+export const setMoveLeftNodeAndPointer = ({ htmlNode, htmlPointer }, time = 800) => {
+	return new Promise(resolve => {
+		htmlNode.style.animation = `moveLeftNode ${convertToSeconds(time)}s ease`;
+		htmlPointer.style.animation = `moveLeftNode ${convertToSeconds(time)}s ease`;
+
+		setTimeout(() => {
+			removeAnimationNodeAndPointer({ htmlNode, htmlPointer });
+			resolve();
+		}, time);
+	});
+};
+
+const removeAnimationNodeAndPointer = ({ htmlNode, htmlPointer }) => {
 	htmlNode.style.animation = null;
 	htmlPointer.style.animation = null;
 };
@@ -58,7 +70,7 @@ export const insertNodeAndPointerAnimation = ({ newNode, listWrapper }, time = 8
 		while (nextNode) {
 			const htmlNode = nextNode.getHtml();
 			const htmlPointer = nextNode.getPointer();
-			setMoveLeftNodeAndPointer({ htmlNode, htmlPointer }, time);
+			setMoveRightNodeAndPointer({ htmlNode, htmlPointer }, time);
 
 			nextNode = nextNode.next;
 		}
@@ -80,7 +92,7 @@ export const insertNodeAndPointerAnimation = ({ newNode, listWrapper }, time = 8
 			while (nextNode) {
 				const htmlNode = nextNode.getHtml();
 				const htmlPointer = nextNode.getPointer();
-				removeMoveLeftNodeAndPointer({ htmlNode, htmlPointer });
+				removeAnimationNodeAndPointer({ htmlNode, htmlPointer });
 
 				nextNode = nextNode.next;
 			}
