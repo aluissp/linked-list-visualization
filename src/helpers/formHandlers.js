@@ -1,4 +1,11 @@
-import { addAt, addLast, clean, removeAt, updateValue } from '../LinkedList.js';
+import {
+	addAt,
+	addLast,
+	clean,
+	removeAt,
+	removeMatchingValues,
+	updateValue,
+} from '../LinkedList.js';
 import to from '../tools/to.js';
 import { hideError, showError } from './errors.js';
 
@@ -81,8 +88,9 @@ export const removeValueHandler = async event => {
 	}
 
 	if (!!value) {
-		console.log({ value });
-		// errorMessage = error;
+		let [error] = await to(removeMatchingValues(+value));
+
+		errorMessage = error;
 	}
 
 	if (errorMessage) await showError(errorMessage);

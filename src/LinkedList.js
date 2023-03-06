@@ -6,7 +6,11 @@ import {
 	setNodeInDocument,
 	updateValueInNode,
 } from './helpers/domHandler.js';
-import { searchingNodeAnimation, searchingPointerAnimation } from './tools/animations.js';
+import {
+	removeElementAnimation,
+	searchingNodeAnimation,
+	searchingPointerAnimation,
+} from './tools/animations.js';
 import to from './tools/to.js';
 
 const linkedList = {
@@ -255,4 +259,52 @@ export const removeAt = index => {
 
 		resolve();
 	});
+};
+
+export const removeMatchingValues = value => {
+	return new Promise(async (resolve, reject) => {
+		if (isEmpty()) return reject('Linked list is empty.');
+
+		let { currentNode } = getInitialNodeAndIndex();
+		const nodes = [];
+		const elementsToDelete = [];
+
+		while (currentNode) {
+			if (currentNode.data === value) {
+				elementsToDelete.push(currentNode.getHtml());
+				elementsToDelete.push(currentNode.getPointer());
+			} else nodes.push(currentNode);
+
+			currentNode = currentNode.next;
+		}
+
+		loadNodesFromList(nodes);
+
+		const nodesToDeletePromises = elementsToDelete.map(element => removeElementAnimation(element));
+		await Promise.all(nodesToDeletePromises);
+		elementsToDelete.forEach(element => element.remove());
+
+		resolve();
+	});
+};
+
+const loadNodesFromList = (nodesLists = []) => {
+	linkedList.headNode = null;
+	linkedList.tailNode = null;
+	linkedList.length = 0;
+
+	const add = node => {
+		if (linkedList.headNode) {
+			linkedList.tailNode.next = node;
+			linkedList.tailNode = node;
+			node.next = null;
+		} else {
+			linkedList.headNode = node;
+			linkedList.tailNode = node;
+		}
+
+		linkedList.length++;
+	};
+
+	nodesLists.forEach(node => add(node));
 };
