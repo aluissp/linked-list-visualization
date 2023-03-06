@@ -32,9 +32,15 @@ main {
 	align-items: center;
 }
 
-.header-container > i {
+.header-container > button {
+	border: none;
+	background-color: transparent;
 	font-size: 1.875rem;
 	line-height: 2.25rem;
+}
+
+.header-container > button > i {
+	color: var(--white);
 }
 
 .header-container > h1 > span {
